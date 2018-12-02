@@ -1,5 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :require_author, only: [:edit, :update, :destroy]
+  before_action :require_login, only: [:create]
 
   # GET /events
   # GET /events.json
@@ -25,6 +27,7 @@ class EventsController < ApplicationController
   # POST /events.json
   def create
     @event = Event.new(event_params)
+    @event.user = current_user
 
     respond_to do |format|
       if @event.save
@@ -70,5 +73,13 @@ class EventsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
       params.fetch(:event, {}).permit(:name, :description)
+    end
+
+    def require_author
+      redirect_to(events_path) unless @event.user == current_user
+    end
+
+    def require_login
+      redirect_to(events_path) unless current_user != nil
     end
 end

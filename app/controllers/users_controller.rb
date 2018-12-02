@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_user, only: [:edit, :update, :destroy]
 
   # GET /users
   # GET /users.json
@@ -35,6 +36,8 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+
+    login(@user.id)
   end
 
   # PATCH/PUT /users/1
@@ -70,5 +73,9 @@ class UsersController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
       params.fetch(:user, {}).permit(:name, :email, :password, :password_confirmation)
+    end
+
+    def authorize_user
+      redirect_to(events_path) unless current_user == @user
     end
 end

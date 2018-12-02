@@ -2,7 +2,10 @@
 
 <h1><%= @event.name %></h1>
 
+<p>Organized by <%= link_to @event.user.name, @event.user %></p>
+
 <p><%= @event.description %></p>
 
-<%= link_to 'Edit', edit_event_path(@event) %> |
-<%= link_to 'Back', events_path %>
+<% if @event.user == current_user %>
+  <%= link_to 'Edit', edit_event_path(@event) %>
+<% end %>
