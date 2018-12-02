@@ -3,6 +3,7 @@
 <h1><%= @event.name %></h1>
 
 <p>Organized by <%= link_to @event.user.name, @event.user %></p>
+<p>In the <%= link_to @event.category.name, @event.category %></p>
 
 <p><%= @event.description %></p>
 

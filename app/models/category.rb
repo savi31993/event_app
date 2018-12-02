@@ -1,6 +1,5 @@
-class Event < ApplicationRecord
-  belongs_to :user
-  belongs_to :category
+class Category < ApplicationRecord
+  has_many :events, dependent: :destroy
 
   validates :name, presence: true
   validates :description, presence: true
