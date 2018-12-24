@@ -18,6 +18,8 @@
     <%= form.label :description %>
     <%= form.text_area :description %>
 
+    <%= form.collection_select :category_id, @categories, :id, :name, include_blank: true %>
+
     <%= form.submit %>
   </div>
 <% end %>

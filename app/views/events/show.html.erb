@@ -2,11 +2,30 @@
 
 <h1><%= @event.name %></h1>
 
-<p>Organized by <%= link_to @event.user.name, @event.user %></p>
+<p>Organized by <%= link_to @event.owner.name, @event.owner %></p>
 <p>In the <%= link_to @event.category.name, @event.category %></p>
+
+<p>
+Has RSVP-ed?
+<%= @has_rsvp_ed %> </br>
+<% if @has_rsvp_ed %>
+  Status: <%= @status %>
+<% end %>
+<%= form_with(url: event_path, scope: :status, local: true, method: "PATCH") do |form| %>
+  <div class='actions'>
+    <%= form.label :status %>
+    <%= form.radio_button :status, true %>
+    <%= form.label :status, "Going", :value => true%>
+    <%= form.radio_button :status, false %>
+    <%= form.label :status, "Not going", :value => false %>
+
+    <%= form.submit %>
+  </div>
+<% end %>
+</p>
 
 <p><%= @event.description %></p>
 
-<% if @event.user == current_user %>
+<% if @event.owner == current_user %>
   <%= link_to 'Edit', edit_event_path(@event) %>
 <% end %>

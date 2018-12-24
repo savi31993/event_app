@@ -1,7 +1,8 @@
 class User < ApplicationRecord
   has_many :events, dependent: :destroy
 
-  has_many :participated_events, through: :rsvp
+  has_many :rsvps
+  has_many :participated_events, through: :rsvps, :source => :event
 
   validates :name, presence: true
 

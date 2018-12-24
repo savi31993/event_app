@@ -12,23 +12,36 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
+    @has_rsvp_ed = false
+    @status = false
+
+    @event.rsvps.each do |rsvp|
+      if rsvp.user == current_user
+        @has_rsvp_ed = true
+        @status = rsvp.status
+        break
+      end
+    end
   end
 
   # GET /events/new
   def new
+    @categories = Category.all.by_name
     @event = Event.new
   end
 
   # GET /events/1/edit
   def edit
+    @categories = Category.all.by_name
   end
 
   # POST /events
   # POST /events.json
   def create
+    @categories = Category.all.by_name
     @event = Event.new(event_params)
-    @event.user = current_user
-    @event.category = Category.find(1)
+    @event.owner = current_user
+    @event.category = Category.find(params[:event][:category_id])
 
     respond_to do |format|
       if @event.save
@@ -73,11 +86,11 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.fetch(:event, {}).permit(:name, :description)
+      params.fetch(:event, {}).permit(:name, :description, :category_id)
     end
 
     def require_author
-      redirect_to(events_path) unless @event.user == current_user
+      redirect_to(events_path) unless @event.owner == current_user
     end
 
     def require_login

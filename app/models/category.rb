@@ -3,4 +3,6 @@ class Category < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
+
+  scope :by_name, -> {order(:name)}
 end
