@@ -90,7 +90,12 @@ class EventsController < ApplicationController
     end
 
     def require_author
-      redirect_to(events_path) unless @event.owner == current_user
+      # redirect_to(events_path) unless @event.owner == current_user
+      if current_user != @event.owner
+        if params[:status].nil?
+          redirect_to(events_path)
+        end
+      end
     end
 
     def require_login

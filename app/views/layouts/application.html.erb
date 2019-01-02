@@ -1,29 +1,50 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Meetup</title>
+    <title>EventPlanner</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
+
     <header>
-      <% if current_user %>
-        Hi, <%= current_user.name %>
-        |
-        <%= link_to "Create a new event", new_event_path %>
-        |
-        <%= link_to "Log out", logout_path, method: :delete %>
-      <% else %>
-        <%= link_to "Log in", login_path %>
-        |
-        <%= link_to "Sign up", new_user_path %>
-      <% end %>
+      <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse">
+            <%= image_tag("/Gold Quasars.png", class: "img-thumbnail", alt: "Logo") %>
+            <ul class="nav navbar-nav navbar-right">
+              <% if current_user %>
+              <li class="greeting_class"> Hi, <%= current_user.name %> </li>
+              <li> <%= link_to "Create a new event", new_event_path %> </li>
+              <li> <%= link_to "Log out", logout_path, method: :delete %> </li>
+              <% else %>
+              <li> <%= link_to "Log in", login_path %> |</li>
+              <li> <%= link_to "Sign up", new_user_path %> </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
 
     <%= yield %>
+
+    <footer class="footer">
+      <div class="text-center">
+        <a class="btn btn-default" href="https://twitter.com" target="_blank"><i class="fa fa-twitter"></i></a>
+        <a class="btn btn-default" href="#"><i class="fa fa-facebook"></i></a>
+        <a class="btn btn-default" href="#"><i class="fa fa-google-plus"></i></a>
+        <a class="btn btn-default" href="#"><i class="fa fa-instagram"></i></a>
+        <a class="btn btn-default" href="#"><i class="fa fa-linkedin"></i></a>
+        <p>Presented by
+          <a href="#" style="color: black;">EventPlanner</a>
+        </p>
+      </div>
+    </div>
   </body>
 </html>
