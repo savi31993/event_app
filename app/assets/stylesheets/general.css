@@ -15,11 +15,11 @@ a {
 }
 
 body{
-  background-color: #FED3D4;
+  background-color: #FFC7C7;
 }
 
 .navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
-  background-color: #512000;
+  background-color: #801515;
   border-color: #512000;
 }
 
@@ -29,23 +29,29 @@ body{
 }
 
 .img-thumbnail {
-  max-width: 200px;
+  max-width: 150px;
   float: left;
   margin-left: -20px;
   margin-top: -5px;
 }
 
-.footer {
+.footer .text-center {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  background-color: #4B857F;
+  background-color: #801515;
   color: white;
   text-align: center;
   padding-top:30px;
-  background-color: #512000;
+
 }
-.table{
-  border-color: black;
+
+.btn > a {
+  color: red;
+}
+
+.list-group-item {
+  background-color: #FFC7C7;
+  border: 1px solid #FFC7C7;
 }
