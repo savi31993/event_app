@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  get '/', to: 'events#index'
+  get '/', to: 'categories#index'
 
   resources :categories
   resources :events

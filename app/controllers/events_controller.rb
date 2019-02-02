@@ -12,16 +12,7 @@ class EventsController < ApplicationController
   # GET /events/1
   # GET /events/1.json
   def show
-    @has_rsvp_ed = false
-    @status = false
-
-    @event.rsvps.each do |rsvp|
-      if rsvp.user == current_user
-        @has_rsvp_ed = true
-        @status = rsvp.status
-        break
-      end
-    end
+    get_rsvp_info
   end
 
   # GET /events/new
@@ -57,6 +48,16 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1
   # PATCH/PUT /events/1.json
   def update
+    if !params[:status].nil?
+      get_rsvp_info
+      if @has_rsvp_ed
+        rsvp = Rsvp.find(@rsvp_id)
+        rsvp.update_attribute(:status, params[:status][:status])
+      else
+        rsvp = Rsvp.create(:user => @current_user, :status => params[:status][:status], :event => @event)
+      end
+    end
+
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
@@ -100,5 +101,20 @@ class EventsController < ApplicationController
 
     def require_login
       redirect_to(events_path) unless current_user != nil
+    end
+
+    def get_rsvp_info
+      @has_rsvp_ed = false
+      @rsvp_id = 0
+      @status = false
+
+      @event.rsvps.each do |rsvp|
+        if rsvp.user == current_user
+          @has_rsvp_ed = true
+          @rsvp_id = rsvp.id
+          @status = rsvp.status
+          break
+        end
+      end
     end
 end

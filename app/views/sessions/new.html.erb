@@ -3,13 +3,22 @@
     <%= flash[:danger] %>
   </div>
 
-  <div class='actions'>
-    <%= form.label :email %>
-    <%= form.email_field :email %>
+  <div id="LoginForm">
+    <div class="container">
+      <div class="login-form">
+        <div class="main-div">
+          <div class="panel">
+            <h2>Login</h2>
+            <p>Please enter your email and password</p>
+          </div>
+          <div id="Login" class="form-group">
+            <%= form.email_field :email, class: "form-control", placeholder: "Email address" %>
+            <%= form.password_field :password, class: "form-control", placeholder: "Password" %>
 
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-
-    <%= form.submit 'Log in' %>
+            <%= form.submit 'Log in', class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

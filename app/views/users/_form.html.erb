@@ -11,19 +11,24 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div id="LoginForm">
+    <div class="container">
+      <div class="login-form">
+        <div class="main-div">
+          <div class="panel">
+            <h2>Signup</h2>
+            <p>New to EventPlanner? Sign up!</p>
+          </div>
+          <div id="Login" class="form-group">
+            <%= form.text_field :name, class: "form-control", placeholder: "Name" %>
+            <%= form.email_field :email, class: "form-control", placeholder: "Email address" %>
+            <%= form.password_field :password, class: "form-control", placeholder: "Password" %>
+            <%= form.password_field :password_confirmation, class: "form-control", placeholder: "Password" %>
 
-    <%= form.label :email %>
-    <%= form.email_field :email %>
-
-    <%= form.label :password %>
-    <%= form.password_field :password %>
-
-    <%= form.label :password_confirmation, "Confirmation" %>
-    <%= form.password_field :password_confirmation %>
-
-    <%= form.submit %>
+            <%= form.submit 'Sign up', class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

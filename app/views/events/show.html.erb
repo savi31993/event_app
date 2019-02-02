@@ -1,31 +1,40 @@
 <p id="notice"><%= notice %></p>
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+    <table class="table table-striped custab">
+    <thead>
+        <tr>
+            <th>Event</th>
+            <th>Organized by</th>
+            <th>Category</th>
+            <th>Description</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+            <tr>
+                <td><%= @event.name %></td>
+                <td><%= link_to @event.owner.name, @event.owner %></td>
+                <td><%= link_to @event.category.name, @event.category %></td>
+                <td><%= @event.description %></td>
+                <% if @event.owner == current_user %>
+                  <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span>Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                <% end %>
+            </tr>
 
-<h1><%= @event.name %></h1>
-
-<p>Organized by <%= link_to @event.owner.name, @event.owner %></p>
-<p>In the <%= link_to @event.category.name, @event.category %></p>
+    </table>
+    </div>
+</div>
 
 <p>
-Has RSVP-ed?
-<%= @has_rsvp_ed %> </br>
-<% if @has_rsvp_ed %>
-  Status: <%= @status %>
-<% end %>
 <%= form_with(url: event_path, scope: :status, local: true, method: "PATCH") do |form| %>
   <div class='actions'>
     <%= form.label :status %>
-    <%= form.radio_button :status, true %>
+    <%= form.radio_button :status, true, :checked => (@has_rsvp_ed && (@status == true)) %>
     <%= form.label :status, "Going", :value => true%>
-    <%= form.radio_button :status, false %>
+    <%= form.radio_button :status, false, :checked => (@has_rsvp_ed && (@status == false)) %>
     <%= form.label :status, "Not going", :value => false %>
 
     <%= form.submit %>
   </div>
 <% end %>
 </p>
-
-<p><%= @event.description %></p>
-
-<% if @event.owner == current_user %>
-  <%= link_to 'Edit', edit_event_path(@event) %>
-<% end %>
