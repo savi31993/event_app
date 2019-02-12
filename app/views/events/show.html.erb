@@ -8,7 +8,11 @@
             <th>Organized by</th>
             <th>Category</th>
             <th>Description</th>
-            <th class="text-center">Action</th>
+            <% if @event.owner == current_user %>
+              <th class="text-center">Action</th>
+            <% end %>
+            <th>Status</th>
+
         </tr>
     </thead>
             <tr>
@@ -17,15 +21,34 @@
                 <td><%= link_to @event.category.name, @event.category %></td>
                 <td><%= @event.description %></td>
                 <% if @event.owner == current_user %>
-                  <td class="text-center"><a class='btn btn-info btn-xs' href="#"><span class="glyphicon glyphicon-edit"></span>Edit</a> <a href="#" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span> Del</a></td>
+                  <td class="text-center">
+                    <%= link_to '', edit_event_path, class: 'btn btn-info btn-xs glyphicon glyphicon-pencil' %>
+                    <%= link_to '', event_path, :method => :delete, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %>
+                  </td>
                 <% end %>
+                <td>
+                  <div class="col-xs-12 col-md-6">
+                    <% if @has_rsvp_ed && @status %>
+                      <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success active' %>
+                    <% else %>
+                      <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success' %>
+                    <% end %>
+                  </div>
+                  <div class="col-xs-12 col-md-6">
+                    <% if @has_rsvp_ed && !@status %>
+                      <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger active', style: 'float: right;' %>
+                    <% else %>
+                      <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger', style: 'float: right;' %>
+                    <% end %>
+                  </div>
+                </td>
             </tr>
 
     </table>
     </div>
 </div>
 
-<p>
+<!--p>
 <%= form_with(url: event_path, scope: :status, local: true, method: "PATCH") do |form| %>
   <div class='actions'>
     <%= form.label :status %>
@@ -37,4 +60,4 @@
     <%= form.submit %>
   </div>
 <% end %>
-</p>
+</p-->

@@ -1,18 +1,27 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :require_author, only: [:edit, :update, :destroy]
-  before_action :require_login, only: [:create]
+  before_action :require_login, only: [:create, :manager, :change_status, :index]
 
   # GET /events
   # GET /events.json
   def index
     @events = Event.all
+
+    @has_rsvp_ed_all = {}
+    @status_all = {}
+
+    @events.each do |event|
+      get_rsvp_info(event.id)
+      @has_rsvp_ed_all[event.id] = @has_rsvp_ed
+      @status_all[event.id] = @status
+    end
   end
 
   # GET /events/1
   # GET /events/1.json
   def show
-    get_rsvp_info
+    get_rsvp_info(@event.id)
   end
 
   # GET /events/new
@@ -49,13 +58,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     if !params[:status].nil?
-      get_rsvp_info
-      if @has_rsvp_ed
-        rsvp = Rsvp.find(@rsvp_id)
-        rsvp.update_attribute(:status, params[:status][:status])
-      else
-        rsvp = Rsvp.create(:user => @current_user, :status => params[:status][:status], :event => @event)
-      end
+      change_status(@event, params[:status][:status])
     end
 
     respond_to do |format|
@@ -79,6 +82,26 @@ class EventsController < ApplicationController
     end
   end
 
+  def manager
+  end
+
+  def change_status
+    event_id = params[:event_id]
+    new_status = params[:new_status]
+    event = Event.find(event_id)
+
+    get_rsvp_info(event_id)
+
+    if @has_rsvp_ed
+      rsvp = Rsvp.find(@rsvp_id)
+      rsvp.update_attribute(:status, new_status)
+    else
+      rsvp = Rsvp.create(:user => current_user, :status => new_status, :event => event)
+    end
+
+    redirect_back(fallback_location: categories_path)
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -100,21 +123,6 @@ class EventsController < ApplicationController
     end
 
     def require_login
-      redirect_to(events_path) unless current_user != nil
-    end
-
-    def get_rsvp_info
-      @has_rsvp_ed = false
-      @rsvp_id = 0
-      @status = false
-
-      @event.rsvps.each do |rsvp|
-        if rsvp.user == current_user
-          @has_rsvp_ed = true
-          @rsvp_id = rsvp.id
-          @status = rsvp.status
-          break
-        end
-      end
+      redirect_to(categories_path) unless current_user != nil
     end
 end

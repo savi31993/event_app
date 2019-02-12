@@ -45,10 +45,10 @@
                   <hr />
                   <div class="row">
                     <div class="col-sm-3 col-md-2 col-5">
-                      <label style="font-weight:bold;">Id</label>
+                      <label style="font-weight:bold;">Rsvp</label>
                     </div>
                     <div class="col-md-8 col-6">
-                      <p><%= @user.id %></p>
+                      <p><%= @user.rsvps.length %></p>
                     </div>
                   </div>
                   <hr />
@@ -71,7 +71,7 @@
                   </div>
                   <hr />
 
-                  <% if @user == current_user %>
+                  <!--% if @user == current_user %>
                     <div class="row">
                       <div class="col-sm-3 col-md-2 col-5">
                         <label style="font-weight:bold;">Change user</label>
@@ -83,7 +83,7 @@
                       </div>
                     </div>
                     <hr />
-                  <% end %>
+                  <% end %-->
                 </div>
               </div>
             </div>

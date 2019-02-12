@@ -5,6 +5,10 @@ Rails.application.routes.draw do
 
   get '/', to: 'categories#index'
 
+  get '/event_manager', to: 'events#manager'
+
+  post '/change_status', to: 'events#change_status'
+
   resources :categories
   resources :events
   resources :users

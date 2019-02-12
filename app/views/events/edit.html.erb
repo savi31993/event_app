@@ -1,6 +1,11 @@
-<h1>Editing Event</h1>
+<h3>Editing Event</h3>
 
 <%= render 'form', event: @event %>
 
-<%= link_to 'Show', @event %> |
-<%= link_to 'Back', events_path %>
+<%= link_to events_path, class:"btn pull-left btn-fyi" do %>
+  <i class="glyphicon glyphicon-chevron-left">Back</i>
+<% end %>
+
+<%= link_to  @event, class: "btn pull-left btn-fyi" do %>
+  <i class="glyphicon glyphicon-info-sign">Show</i>
+<% end %>

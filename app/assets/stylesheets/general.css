@@ -9,7 +9,7 @@
 }
 
 body {
-  font-family: "Roboto script=all rev=2";
+  font-family: 'Roboto', sans-serif;
   font-weight: 400;
   font-style: normal;
 }
@@ -80,14 +80,14 @@ body {
  }
 
 .bg {
-  background-image: url("https://images.unsplash.com/5/unsplash-kitsune-3.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80");
+  background-image: url("https://hdwallsource.com/img/2014/9/blur-26347-27038-hd-wallpapers.jpg");
   height: 100%;
 
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  margin-bottom: 175px;
+  margin-bottom: 1250px;
 }
 
 #profile {
@@ -233,4 +233,18 @@ body {
   a {
       text-decoration: none;
       color: black;
+    }
+    .btn{
+      padding: 4px;
+    }
+
+    input, button, select, textarea {
+      width: 100%;
+      margin-top: 10px;
+    }
+  .glyphicon-chevron-left {
+      font-size: 23px;
+    }
+    .glyphicon-info-sign {
+      font-size: 23px;
     }

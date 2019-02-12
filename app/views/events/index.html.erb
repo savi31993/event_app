@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-  <h1>Events</h1>
+  <h3>Events</h3>
   <div class="udesign">
     <div class="ui container">
       <div class="ui grid">
@@ -9,18 +9,30 @@
             <% @events.each do |event| %>
               <div class="card">
                 <div class="ui left piled segment">
-                  <img src="/image/image8.jpg" class="ui tiny left floated image">
-                  <h3 class="ui header text-center" style="margin-top: 0px;" ><%= link_to event.name, event %></h3>
+                  <img src="/image/image8.jpg" class="img-fluid">
+                  <h3 class="card-body" style="margin-top: 0px;" ><%= link_to event.name, event %></h3>
                   <div class="floated right text-center description">
                     <%= event.description %>
                   </div>
                   <% if current_user %>
                     <div class="row">
                       <div class="col-xs-12 col-md-6">
-                        <a class="btn btn-success" href="#">Going</a>
+                        <% if @has_rsvp_ed_all[event.id] && @status_all[event.id] %>
+                          <%= button_to change_status_path(:event_id => event.id, :new_status => true), :method => :post, class: 'btn btn-success active' do %>
+                            <i class="glyphicon glyphicon-ok">Accept</i>
+                          <% end %>
+                        <% else %>
+                          <%= button_to 'Accept', change_status_path(:event_id => event.id, :new_status => true), :method => :post, class: 'btn btn-success' %>
+                        <% end %>
                       </div>
                       <div class="col-xs-12 col-md-6">
-                        <a class="btn btn-danger" href="#">Not Going</a>
+                        <% if @has_rsvp_ed_all[event.id] && !@status_all[event.id] %>
+                          <%= button_to change_status_path(:event_id => event.id, :new_status => false), :method => :post, class: 'btn btn-danger active', style: 'float: right;' do %>
+                            <i class="glyphicon glyphicon-remove">Decline</i>
+                          <% end %>
+                        <% else %>
+                          <%= button_to 'Decline', change_status_path(:event_id => event.id, :new_status => false), :method => :post, class: 'btn btn-danger', style: 'float: right;' %>
+                        <% end %>
                       </div>
                     </div>
                   <% end %>
@@ -36,7 +48,7 @@
 <br>
 
 <% if current_user %>
-  <%= link_to 'New Event', new_event_path %>
+  <%= link_to 'New Event', new_event_path, class:"btn btn-default btn-help" %>
 <% end %>
 
 <script>

@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
     if user
       if user.authenticate(params[:session][:password])
         login(user.id)
-        redirect_to user
+        redirect_to events_path
       else
         flash.now[:danger] = "Incorrect password!"
         render 'new'

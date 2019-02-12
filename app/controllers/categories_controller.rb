@@ -10,6 +10,14 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
+    @has_rsvp_ed_all = {}
+    @status_all = {}
+
+    @category.events.each do |event|
+      get_rsvp_info(event.id)
+      @has_rsvp_ed_all[event.id] = @has_rsvp_ed
+      @status_all[event.id] = @status
+    end
   end
 
   # GET /categories/new

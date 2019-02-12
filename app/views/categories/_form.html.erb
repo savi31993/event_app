@@ -11,7 +11,25 @@
     </div>
   <% end %>
 
-  <div class="actions">
+  <div id="LoginForm">
+    <div class="container">
+      <div class="login-form">
+        <div class="main-div">
+          <div class="panel">
+            <h2>Create new category </h2>
+          </div>
+          <div id="Login" class="form-group">
+            <%= form.text_field :name, class: "form-control", placeholder: "Event name" %>
+            <%= form.text_area :description, class: "form-control", placeholder: "Description" %>
+
+            <%= form.submit 'Create Event', class: "btn btn-primary" %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--div class="actions">
     <%= form.label :name %>
     <%= form.text_field :name %>
 
@@ -19,5 +37,5 @@
     <%= form.text_area :description %>
 
     <%= form.submit %>
-  </div>
+  </div-->
 <% end %>
