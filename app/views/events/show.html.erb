@@ -1,63 +1,104 @@
 <p id="notice"><%= notice %></p>
-<div class="container">
-    <div class="row col-md-6 col-md-offset-2 custyle">
-    <table class="table table-striped custab">
+<div class="container-fluid home-main-content1">
+    <div class="row custyle">
+      <div id='map' class='col-md-6 content1-left'></div>
+        <table class="table table-striped custab col-md-5">
     <thead>
         <tr>
             <th>Event</th>
-            <th>Organized by</th>
-            <th>Category</th>
-            <th>Description</th>
-            <% if @event.owner == current_user %>
-              <th class="text-center">Action</th>
-            <% end %>
-            <th>Status</th>
-
+            <td><%= @event.name %></td>
         </tr>
-    </thead>
+        <tr>
+            <th>Organized by</th>
+            <td><%= link_to @event.owner.name, @event.owner %></td>
+        </tr>
+        <tr>
+          <th>Category</th>
+          <td><%= link_to @event.category.name, @event.category %></td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td><%= @event.description %></td>
+        </tr>
+        <tr>
+          <th>Place</th>
+          <td><%= @event.address %></td>
+        </tr>
+        <tr>
+          <th> Date</th>
+          <td><%= @event.date.in_time_zone("EST").strftime("%d-%b-%Y at %I:%M%p") + " EST" %></td>
+        </tr>
+        <% if @event.owner == current_user %>
             <tr>
-                <td><%= @event.name %></td>
-                <td><%= link_to @event.owner.name, @event.owner %></td>
-                <td><%= link_to @event.category.name, @event.category %></td>
-                <td><%= @event.description %></td>
-                <% if @event.owner == current_user %>
-                  <td class="text-center">
-                    <%= link_to '', edit_event_path, class: 'btn btn-info btn-xs glyphicon glyphicon-pencil' %>
-                    <%= link_to '', event_path, :method => :delete, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %>
-                  </td>
-                <% end %>
-                <td>
-                  <div class="col-xs-12 col-md-6">
-                    <% if @has_rsvp_ed && @status %>
-                      <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success active' %>
-                    <% else %>
-                      <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success' %>
-                    <% end %>
-                  </div>
-                  <div class="col-xs-12 col-md-6">
-                    <% if @has_rsvp_ed && !@status %>
-                      <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger active', style: 'float: right;' %>
-                    <% else %>
-                      <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger', style: 'float: right;' %>
-                    <% end %>
-                  </div>
-                </td>
+              <th>Action</th>
+              <td>
+                <%= link_to '', edit_event_path, class: 'btn btn-info btn-xs glyphicon glyphicon-pencil' %>
+                <%= link_to '', event_path, :method => :delete, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %>
+              </td>
             </tr>
+        <% end %>
+        <% if @event.owner == current_user %>
+          <tr>
+            <th>Status</th>
+            <td>
+              <div class="col-xs-12 col-md-6">
+                <% if @has_rsvp_ed && @status %>
+                  <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success active' %>
+                <% else %>
+                  <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success' %>
+                <% end %>
+              </div>
+              <div class="col-xs-12 col-md-6">
+                <% if @has_rsvp_ed && !@status %>
+                  <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger active event', style: 'float: right;' %>
+                <% else %>
+                  <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger', style: 'float: right;' %>
+                <% end %>
+              </div>
+            </td>
+          </tr>
+        <% end %>
 
     </table>
     </div>
 </div>
 
-<!--p>
-<%= form_with(url: event_path, scope: :status, local: true, method: "PATCH") do |form| %>
-  <div class='actions'>
-    <%= form.label :status %>
-    <%= form.radio_button :status, true, :checked => (@has_rsvp_ed && (@status == true)) %>
-    <%= form.label :status, "Going", :value => true%>
-    <%= form.radio_button :status, false, :checked => (@has_rsvp_ed && (@status == false)) %>
-    <%= form.label :status, "Not going", :value => false %>
 
-    <%= form.submit %>
-  </div>
-<% end %>
-</p-->
+<script>
+window.onload = $(function () {
+  function initializeMap(data) {
+    var posts = $.parseJSON(data);
+
+    var long = posts.features[0].geometry.coordinates[0];
+    var lat = posts.features[0].geometry.coordinates[1];
+
+    mapboxgl.accessToken = 'pk.eyJ1Ijoic2F2aTMiLCJhIjoiY2pucnU3bzlyMDU4YzNzczJpZTUxbzc5dCJ9.J_U8KomOkq4ZPEGt9zongA';
+
+    var map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [long, lat],
+    });
+
+    posts.features.forEach(function(marker) {
+      var el = document.createElement('div');
+      el.className = 'marker'
+
+      new mapboxgl.Marker(el).setLngLat(marker.geometry.coordinates).addTo(map);
+    });
+
+    map.addControl(new mapboxgl.NavigationControl());
+
+    var epsilonLong = 0.01;
+    var epsilonLat  = 0.01;
+
+    map.fitBounds([[long - epsilonLong, lat - epsilonLat], [long + epsilonLong, lat + epsilonLat]]);
+  };
+
+  $.ajax({
+    url: '/events/' + <%= @event.id %> + '.json',
+    dataType: 'text',
+    success: initializeMap
+  });
+});
+</script>

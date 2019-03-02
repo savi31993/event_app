@@ -1,5 +1,6 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
+  before_action :require_login, only: [:new, :create, :edit, :update, :destroy]
 
   # GET /categories
   # GET /categories.json
@@ -75,8 +76,12 @@ class CategoriesController < ApplicationController
       @category = Category.find(params[:id])
     end
 
+    def require_login
+      redirect_to(categories_path) unless current_user != nil
+    end
+
     # Never trust parameters from the scary internet, only allow the white list through.
     def category_params
-      params.fetch(:category, {}).permit(:name, :description)
+      params.fetch(:category, {}).permit(:name, :description, :image)
     end
 end

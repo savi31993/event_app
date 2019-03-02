@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
-  get '/', to: 'categories#index'
+  get '/', to: 'events#index'
 
   get '/event_manager', to: 'events#manager'
 

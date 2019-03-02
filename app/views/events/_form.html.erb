@@ -21,22 +21,30 @@
             <%= form.text_field :name, class: "form-control", placeholder: "Event name" %>
             <%= form.text_area :description, class: "form-control", placeholder: "Description" %>
             <%= form.collection_select :category_id, @categories, :id, :name, include_blank: true, class: "dropdown" %>
+            <div class="field">
+              <%= form.label 'Time of Event' %>
+              <%= form.text_field :date, class: "form-control", id: "dateselection" %>
+            </div>
+            <%= form.text_field :address, class: "form-control", placeholder: "Address" %>
+            <%= form.file_field :image %>
             <%= form.submit 'Create Event', class: "btn btn-primary" %>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <!--div class="actions">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
-
-    <%= form.label :description %>
-    <%= form.text_area :description %>
-
-    <%= form.collection_select :category_id, @categories, :id, :name, include_blank: true %>
-
-    <%= form.submit %>
-  </div-->
 <% end %>
+
+<script type="text/javascript">
+  const el = document.getElementById('dateselection');
+  flatpickr(el, {
+    enableTime:      true,
+    altInput:        true,
+    minDate:         "today",
+    altFormat:       "F j, Y at h:i K",
+    dateFormat:      "Y-m-d H:i",
+    defaultHour:     23,
+    defaultMinute:   59,
+    minuteIncrement: 1
+  });
+</script>

@@ -9,6 +9,10 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="https://bootswatch.com/4/simplex/bootstrap.min.css"/>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -24,6 +28,7 @@
           </li>
           <% if current_user %>
             <li class="nav-item nav justify-content-end ml-auto"> Hi, <%= current_user.name %> </li>
+            <li class="nav-item nav justify-content-end"> <%= link_to "Categories", categories_path%> </li>
             <li class="nav-item nav justify-content-end"> <%= link_to "Event Manager", event_manager_path %> </li>
             <li class="nav-item nav justify-content-end"> <%= link_to "Create a new event", new_event_path %> </li>
             <li class="nav-item nav justify-content-end"> <%= link_to "Log out", logout_path, method: :delete %></li>

@@ -1,7 +1,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
   before_action :require_author, only: [:edit, :update, :destroy]
-  before_action :require_login, only: [:create, :manager, :change_status, :index]
+  before_action :require_login, only: [:create, :manager, :new, :change_status]
 
   # GET /events
   # GET /events.json
@@ -22,6 +22,31 @@ class EventsController < ApplicationController
   # GET /events/1.json
   def show
     get_rsvp_info(@event.id)
+
+    respond_to do |format|
+      format.html
+      format.json do
+        feature_list = []
+        feature_list.push({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [@event.longitude, @event.latitude]
+          },
+          properties: {
+            name: @event.name,
+            address: @event.address
+          }
+        })
+
+        geojson = {
+          type: 'FeatureCollection',
+          features: feature_list
+        }
+
+        render json: geojson
+      end
+    end
   end
 
   # GET /events/new
@@ -41,10 +66,11 @@ class EventsController < ApplicationController
     @categories = Category.all.by_name
     @event = Event.new(event_params)
     @event.owner = current_user
-    @event.category = Category.find(params[:event][:category_id])
 
     respond_to do |format|
       if @event.save
+        @event.category = Category.find(params[:event][:category_id])
+
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -93,8 +119,7 @@ class EventsController < ApplicationController
     get_rsvp_info(event_id)
 
     if @has_rsvp_ed
-      rsvp = Rsvp.find(@rsvp_id)
-      rsvp.update_attribute(:status, new_status)
+      Rsvp.destroy(@rsvp_id)
     else
       rsvp = Rsvp.create(:user => current_user, :status => new_status, :event => event)
     end
@@ -110,7 +135,7 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.fetch(:event, {}).permit(:name, :description, :category_id)
+      params.fetch(:event, {}).permit(:name, :description, :category_id, :image, :date, :address)
     end
 
     def require_author
@@ -123,6 +148,6 @@ class EventsController < ApplicationController
     end
 
     def require_login
-      redirect_to(categories_path) unless current_user != nil
+      redirect_to(events_path) unless current_user != nil
     end
 end

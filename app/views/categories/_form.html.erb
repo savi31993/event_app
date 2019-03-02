@@ -21,8 +21,8 @@
           <div id="Login" class="form-group">
             <%= form.text_field :name, class: "form-control", placeholder: "Event name" %>
             <%= form.text_area :description, class: "form-control", placeholder: "Description" %>
-
-            <%= form.submit 'Create Event', class: "btn btn-primary" %>
+            <%= form.file_field :image %>
+            <%= form.submit 'Create New Category', class: "btn btn-primary" %>
           </div>
         </div>
       </div>

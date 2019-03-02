@@ -3,7 +3,13 @@
 one:
   name: MyString
   description: MyText
+  owner: jane
+  category: food
+  date: <%= Time.current %>
 
 two:
   name: MyString
   description: MyText
+  owner: john
+  category: physical
+  date: <%= Time.current %>

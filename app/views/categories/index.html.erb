@@ -10,12 +10,23 @@
                 <div class="card hoverable">
 
                   <!--Card image-->
-                  <img class="img-fluid" src="image/image4.jpg" alt="Card image cap">
+                  <%# In production, we validate that a new category must have an image %>
+                  <%# so this test will always return true. However, in testing, I don't %>
+                  <%# know how to attach an image to a test category. Since the exact %>
+                  <%# content of the image is not important, I am working around this %>
+                  <%# by simply ignoring the image portion of the file with this %>
+                  <%# conditional. %>
+                  <% if category.image.attached? %>
+                    <%= image_tag category.image, :class => "img-fluid" %>
+                  <% end %>
 
                   <!--Card content-->
                   <div class="card-body">
                     <!--Title-->
-                    <h4 class="card-title"><%= link_to category.name, category %></h4>
+                    <h4 class="card-title">
+                      <%= link_to category.name, category %>
+                      (<%= category.events.length %> events)
+                    </h4>
                     <!--Text-->
                     <p class="card-text"><%= category.description %></p>
                   </div>

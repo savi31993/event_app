@@ -8,10 +8,19 @@
           <% @category.events.each do |event| %>
             <div class="card">
               <div class="ui left piled segment">
-                <img src="/image/image8.jpg" class="img-fluid">
+                <%# In production, we validate that a new category must have an image %>
+                <%# so this test will always return true. However, in testing, I don't %>
+                <%# know how to attach an image to a test category. Since the exact %>
+                <%# content of the image is not important, I am working around this %>
+                <%# by simply ignoring the image portion of the file with this %>
+                <%# conditional. %>
+                <% if event.image.attached? %>
+                  <%= image_tag event.image, :class => "img-fluid" %>
+                <% end %>
                 <h3 class="card-body" style="margin-top: 0px;" ><%= link_to event.name, event %></h3>
                 <div class="floated right text-center description">
-                  <%= event.description %>
+                  <%= event.description %> </br>
+                  <%= event.date.in_time_zone("EST").strftime("%d-%b-%Y at %I:%M%p") + " EST" %>
                 </div>
                 <% if current_user %>
                   <div class="row">
