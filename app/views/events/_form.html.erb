@@ -20,7 +20,7 @@
           <div id="Login" class="form-group">
             <%= form.text_field :name, class: "form-control", placeholder: "Event name" %>
             <%= form.text_area :description, class: "form-control", placeholder: "Description" %>
-            <%= form.collection_select :category_id, @categories, :id, :name, include_blank: true, class: "dropdown" %>
+            <%= form.collection_select :category_id, @categories, :id, :name, class: "dropdown", :prompt => '--- Please select a category ---' %>
             <div class="field">
               <%= form.label 'Time of Event' %>
               <%= form.text_field :date, class: "form-control", id: "dateselection" %>
