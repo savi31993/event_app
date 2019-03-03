@@ -6,6 +6,7 @@ one:
   owner: jane
   category: food
   date: <%= Time.current %>
+  address: 330 Innovation Blvd, 16803
 
 two:
   name: MyString
@@ -13,3 +14,4 @@ two:
   owner: john
   category: physical
   date: <%= Time.current %>
+  address: 330 Innovation Blvd, 16803

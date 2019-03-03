@@ -3,7 +3,9 @@
 jane:
   name: Jane Doe
   email: jane.doe@example.com
+  password_digest: <%= BCrypt::Password.create("foo", cost: 4) %>
 
 john:
   name: John Doe
   email: john.doe@example.com
+  password_digest: <%= BCrypt::Password.create("bar", cost: 4) %>

@@ -1,6 +1,7 @@
 class CategoriesController < ApplicationController
   before_action :set_category, only: [:show, :edit, :update, :destroy]
   before_action :require_login, only: [:new, :create, :edit, :update, :destroy]
+  before_action :disallow_destroy, only: [:destroy]
 
   # GET /categories
   # GET /categories.json
@@ -78,6 +79,10 @@ class CategoriesController < ApplicationController
 
     def require_login
       redirect_to(categories_path) unless current_user != nil
+    end
+
+    def disallow_destroy
+      redirect_to(categories_path)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

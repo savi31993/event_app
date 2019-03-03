@@ -4,6 +4,14 @@ class Category < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
-  validates :image, presence: true
+
+  validate :image_validation
+
   scope :by_name, -> {order(:name)}
+
+  def image_validation
+    if !image.attached?
+      errors[:base] << "Must attach an image!"
+    end
+  end
 end
