@@ -23,10 +23,38 @@
                 <td><%= link_to '', event_path(event), :method => :delete, class: 'btn btn-danger btn-xs glyphicon glyphicon-trash' %></td>
               </tr>
             <% end %>
-          </tbody
+          </tbody>
         </table>
       </div>
     </div>
+    <div class="content-title">Your RSVPs</div>
+    <div class="table-responsive">
+      <table id="mytable" class="table table-bordred">
+        <thead>
+          <th><input type="checkbox" id="checkall" /></th>
+          <th>Event Name</th>
+          <th>Category</th>
+          <th>Participants</th>
+          <th>Date and Time</th>
+          <th>Location</th>
+        </thead>
+        <tbody>
+          <% @rsvps.each do |rsvp| %>
+            <% if rsvp.status %>
+              <tr>
+                <td><input type="checkbox" class="checkthis" /></td>
+                <td><%= link_to @events_rsvp_ed[rsvp.event_id].name, event_path(@events_rsvp_ed[rsvp.event_id]) %></td>
+                <td><%= @events_rsvp_ed[rsvp.event_id].category.name %></td>
+                <td><%= @events_rsvp_ed[rsvp.event_id].rsvps.going.length %></td>
+                <td><%= @events_rsvp_ed[rsvp.event_id].date %></td>
+                <td><%= @events_rsvp_ed[rsvp.event_id].address %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
   </div>
 </div>
 

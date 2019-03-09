@@ -109,6 +109,14 @@ class EventsController < ApplicationController
   end
 
   def manager
+    puts("HERE")
+    @rsvps = current_user.rsvps
+
+    @events_rsvp_ed = {}
+
+    @rsvps.each do |rsvp|
+      @events_rsvp_ed[rsvp.event_id] = Event.find(rsvp.event_id)
+    end
   end
 
   def change_status

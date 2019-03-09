@@ -37,22 +37,30 @@
               </td>
             </tr>
         <% end %>
-        <% if @event.owner == current_user %>
+        <% if current_user %>
           <tr>
             <th>Status</th>
             <td>
               <div class="col-xs-12 col-md-6">
-                <% if @has_rsvp_ed && @status %>
-                  <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success active' %>
+                <% if @has_rsvp_ed %>
+                  <div class="col-md-12">
+                    <% if @status %>
+                      <%= button_to change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success active' do %>
+                        <i class="glyphicon glyphicon-ok">Accept</i>
+                      <% end %>
+                    <% else %>
+                      <%= button_to change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger active', style: 'float: right;' do %>
+                        <i class="glyphicon glyphicon-remove">Decline</i>
+                      <% end %>
+                    <% end %>
+                  </div>
                 <% else %>
-                  <%= button_to 'Going', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success' %>
-                <% end %>
-              </div>
-              <div class="col-xs-12 col-md-6">
-                <% if @has_rsvp_ed && !@status %>
-                  <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger active event', style: 'float: right;' %>
-                <% else %>
-                  <%= button_to 'Not going', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger', style: 'float: right;' %>
+                  <div class="col-md-6">
+                    <%= button_to 'Accept', change_status_path(:event_id => @event.id, :new_status => true), :method => :post, class: 'btn btn-success' %>
+                  </div>
+                  <div class="col-md-6">
+                    <%= button_to 'Decline', change_status_path(:event_id => @event.id, :new_status => false), :method => :post, class: 'btn btn-danger', style: 'float: right;' %>
+                  </div>
                 <% end %>
               </div>
             </td>
