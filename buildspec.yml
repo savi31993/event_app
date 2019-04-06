@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - gem install bundler
+      - bundle install
+      - apt-get update
+      - apt-get -y install nodejs
+  post_build:
+    commands:
+      - chmod +x bin/rails
+      - bin/rails test
